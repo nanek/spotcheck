@@ -1,0 +1,16 @@
+{
+  "name": "spotcheck",
+  "version": "0.0.0",
+  "description": "Quick, light weight querying of log files from AWS S3.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kenan Shifflett",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "~2.0.0-rc9",
+    "async": "~0.2.10",
+    "through": "~2.3.4"
+  }
+}
