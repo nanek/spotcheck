@@ -8,9 +8,9 @@ Quick, light weight querying of log files from AWS S3.
 
 # Log file formats supported
 
-`s3`         - S3 website log
-`cloudfront` - Cloudfront log (File from each edge server)
-`cloudtrail` - Cloudtrail audit log
+- `s3`         - S3 website log
+- `cloudfront` - Cloudfront log (File from each edge server)
+- `cloudtrail` - Cloudtrail audit log
 
 # Installation
 
