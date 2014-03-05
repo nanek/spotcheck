@@ -70,6 +70,19 @@ var processFile = function(path, cb) {
   }
 };
 
+// Finds a unique file output name.
+var outputName = function(path, num) {
+  if (num === undefined) {
+    num = 0;
+  }
+  var possiblePath = __dirname + '/' + path + '.' + num;
+  if (fs.existsSync(possiblePath)) {
+    num++;
+    possiblePath = outputName(path, num);
+  }
+  return possiblePath;
+};
+
 // List files in bucket that match prefix.
 //
 var listFiles = function(params) {
@@ -81,6 +94,11 @@ var listFiles = function(params) {
     data.Contents.forEach(function(filePath) {
       paths.push(filePath.Key);
     });
+
+    report.Filename = outputName(report.Filename);
+
+    // Start JSON array.
+    fs.writeFileSync(report.Filename, '[');
 
     // Process each file path.
     async.eachSeries(paths, processFile, function(err, results) {
@@ -97,6 +115,9 @@ var listFiles = function(params) {
       } else {
         console.log("done");
       }
+
+      // End JSON array.
+      fs.appendFileSync(report.Filename, '{}]');
     });
   });
 };
