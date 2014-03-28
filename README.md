@@ -3,6 +3,7 @@
 Quick, light weight querying of log files from AWS S3.
 
 - Downloads files from a S3 bucket.
+- Concatenates all files into a single file.
 - Unzips if necessary.
 - Converts from a standard log format into JSON.
 
@@ -14,7 +15,7 @@ Quick, light weight querying of log files from AWS S3.
 
 # Installation
 
-    git clone repo
+    npm install spotcheck -g
 
     # Create aws.json with your AWS API credentials.
     {
@@ -22,16 +23,14 @@ Quick, light weight querying of log files from AWS S3.
       "secretAccessKey": ""
     }
 
-    create report/name.json
+    # Create report.json (see example below).
 
-    node index.js <report name>
-
-    # Example:
-    node index.js reports/default.json
+    # Run report.
+    spotcheck report.json
 
 # Report format
 
-Example `reports/default.json`
+Example `report.json`
 ````
 {
   "list": {
@@ -40,7 +39,7 @@ Example `reports/default.json`
     "MaxKeys": 100
   },
   "format": "s3",
-  "Filename": "logs/default.json"
+  "Filename": "report.log"
 }
 ````
 

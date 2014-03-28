@@ -12,13 +12,14 @@ var s3 = new AWS.S3();
 
 var formats = require('./formats');
 var reportConfig = process.argv[2] || "default";
+var rootDir = __dirname + "/../../";
 
 var report;
 
 try {
-  report = require(__dirname + "/" + reportConfig);
+  report = require(rootDir + reportConfig);
  } catch (error) {
-  console.error("Report config not found. Create reports/default.json");
+  console.error("Report not found. Create reports.json");
   return;
 }
 
@@ -75,7 +76,7 @@ var outputName = function(path, num) {
   if (num === undefined) {
     num = 0;
   }
-  var possiblePath = __dirname + '/' + path + '.' + num;
+  var possiblePath = rootDir + path + '.' + num;
   if (fs.existsSync(possiblePath)) {
     num++;
     possiblePath = outputName(path, num);
@@ -96,6 +97,7 @@ var listFiles = function(params) {
     });
 
     report.Filename = outputName(report.Filename);
+    // TODO: notify if folder does not exist.
 
     // Start JSON array.
     fs.writeFileSync(report.Filename, '[');
