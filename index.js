@@ -19,22 +19,32 @@ var moment = require('moment');
 var start = moment();
 var end = moment(start.toString()).add('days', 1);
 
+var spotcheck = {};
+module.exports = spotcheck;
+
 var report;
+var format;
 
-try {
-  report = require(path.join(rootDir, reportConfig));
- } catch (error) {
-  console.error("Report not found. Create reports.json");
-  return;
-}
+spotcheck.readConfig = function() {
+  try {
+    report = require(path.join(rootDir, reportConfig));
+   } catch (error) {
+    console.error("Report not found. Create report.json");
+    return;
+  }
 
-var format = formats[report.format];
-if (!format) {
-  console.error("Invalid file format (" + report.format + ") specified.");
-  return;
-}
+  // Validate config.
+  format = formats[report.Format];
+  if (!format) {
+    console.error("Invalid file format (" + report.format + ") specified.");
+    return;
+  }
 
-var toJson = function() {
+  // TODO: handle if path does not exist.
+  spotcheck.outputFile = spotcheck.outputName(report.Output);
+};
+
+spotcheck.toJson = function() {
   return through(function (buf) {
     this.queue(format.toJson(buf.toString()));
   }, function end() {
@@ -44,11 +54,11 @@ var toJson = function() {
 
 // Download from S3, gunzip, and convert to JSON.
 //
-var processFile = function(path, cb) {
-  if (path && path.length > 1) {
+spotcheck.processFile = function(filePath, cb) {
+  if (filePath && filePath.length > 1) {
     var params = {
-      Bucket: report.list.Bucket,
-      Key: path
+      Bucket: report.Bucket,
+      Key: filePath
     };
 
     var read = s3.getObject(params).createReadStream();
@@ -61,7 +71,7 @@ var processFile = function(path, cb) {
     }
 
     var json = reader.pipe(split())
-      .pipe(toJson());
+      .pipe(spotcheck.toJson());
 
     json.on('error', function(err) {
       cb(err);
@@ -71,27 +81,27 @@ var processFile = function(path, cb) {
       cb();
     });
 
-    var out = fs.createWriteStream(report.Filename, { flags: 'a' });
+    var out = fs.createWriteStream(spotcheck.outputFile, { flags: 'a' });
     json.pipe(out);
   }
 };
 
 // Finds a unique file output name.
-var outputName = function(filePath, num) {
+spotcheck.outputName = function(filePath, num) {
   if (num === undefined) {
     num = 0;
   }
   var possiblePath = path.join(rootDir, filePath + '.' + num);
   if (fs.existsSync(possiblePath)) {
     num++;
-    possiblePath = outputName(filePath, num);
+    possiblePath = spotcheck.outputName(filePath, num);
   }
   return possiblePath;
 };
 
 // List files in bucket that match prefix.
 //
-var listFiles = function(params, cb) {
+spotcheck.listFiles = function(params, cb) {
   s3.listObjects(params, function(err, data) {
     if (err) return console.log(err);
 
@@ -107,7 +117,7 @@ var listFiles = function(params, cb) {
       params.Marker = lastPath;
       var endMarker = report.Prefix + end.format(format.fileDateFormat);
       if (lastPath < endMarker) {
-        listFiles(params, function(morePaths){
+        spotcheck.listFiles(params, function(morePaths){
           paths = paths.concat(morePaths);
           cb(paths);
         });
@@ -120,20 +130,27 @@ var listFiles = function(params, cb) {
   });
 };
 
-// TODO: notify if folder does not exist.
-report.Filename = outputName(report.Filename);
-report.list.Prefix = report.Prefix + start.format(format.fileDateFormat);
+spotcheck.run = function() {
+  // Start JSON array.
+  fs.writeFileSync(spotcheck.outputFile, '[');
 
-// Start JSON array.
-fs.writeFileSync(report.Filename, '[');
-listFiles(report.list, function(paths){
+  var listParams = {
+    Bucket: report.Bucket,
+    MaxKeys: 1000,
+    Prefix: report.Prefix + start.format(format.fileDateFormat)
+  };
 
-  // Process each file path.
-  async.eachSeries(paths, processFile, function(err, results) {
-    if (err) return console.log(err);
+  spotcheck.listFiles(listParams, function(paths){
+    // Process each file path.
+    async.eachSeries(paths, spotcheck.processFile, function(err, results) {
+      if (err) return console.log(err);
 
-    // End JSON array.
-    fs.appendFileSync(report.Filename, '{}]');
-    console.log("done");
+      // End JSON array.
+      fs.appendFileSync(spotcheck.outputFile, '{}]');
+      console.log("done");
+    });
   });
-});
+};
+
+spotcheck.readConfig();
+spotcheck.run();

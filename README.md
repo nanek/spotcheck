@@ -33,13 +33,10 @@ Quick, light weight querying of log files stored on AWS S3.
 Example `report.json`
 ````
 {
-  "list": {
-    "Bucket": "",
-    "MaxKeys": 100
-  },
-  "format": "s3",
-  "Filename": "report.log",
+  "Bucket": "",
+  "Format": "s3",
   "Prefix": "",
+  "Output": "report.log"
 }
 ````
 
