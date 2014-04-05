@@ -26,7 +26,7 @@ Quick, light weight querying of log files stored on AWS S3.
     # Create report.json (see example below).
 
     # Run report.
-    spotcheck report.json
+    spotcheck report.json [optional date]
 
 # Report format
 

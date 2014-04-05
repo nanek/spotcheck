@@ -6,6 +6,7 @@ var zlib = require('zlib');
 var split = require('split');
 var through = require('through');
 var async = require('async');
+var moment = require('moment');
 
 var AWS = require('aws-sdk');
 AWS.config.loadFromPath('./aws.json');
@@ -13,11 +14,16 @@ var s3 = new AWS.S3();
 
 var formats = require('./formats');
 var reportConfig = process.argv[2] || "default";
+var inputDate = process.argv[3] || null;
 var rootDir = process.cwd();
 
-var moment = require('moment');
 var start = moment();
+if (inputDate) {
+  start = moment(inputDate);
+}
 var end = moment(start.toString()).add('days', 1);
+
+console.log(start.format("YYYY-MM-DD"), "to", end.format("YYYY-MM-DD"));
 
 var spotcheck = {};
 module.exports = spotcheck;
@@ -91,7 +97,8 @@ spotcheck.outputName = function(filePath, num) {
   if (num === undefined) {
     num = 0;
   }
-  var possiblePath = path.join(rootDir, filePath + '.' + num);
+  var fileName = filePath + '.' + start.format("YYYY-MM-DD") + '.' + num;
+  var possiblePath = path.join(rootDir, fileName);
   if (fs.existsSync(possiblePath)) {
     num++;
     possiblePath = spotcheck.outputName(filePath, num);
