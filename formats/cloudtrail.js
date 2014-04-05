@@ -50,5 +50,6 @@ var convert = function(row) {
 
 module.exports = {
   toJson: convert,
-  gzip: true
+  gzip: true,
+  fileDateFormat: 'YYYY/MM/DD'
 };

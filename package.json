@@ -1,7 +1,7 @@
 {
   "name": "spotcheck",
   "version": "0.0.1",
-  "description": "Quick, light weight querying of log files from AWS S3.",
+  "description": "Quick, light weight querying of logs stored on AWS S3.",
   "main": "index.js",
   "bin": "./index.js",
   "scripts": {
@@ -9,10 +9,15 @@
   },
   "author": "Kenan Shifflett",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spanishdict/spotcheck"
+  },
   "dependencies": {
     "aws-sdk": "~2.0.0-rc9",
     "async": "~0.2.10",
     "through": "~2.3.4",
-    "split": "~0.3.0"
+    "split": "~0.3.0",
+    "moment": "~2.5.1"
   }
 }

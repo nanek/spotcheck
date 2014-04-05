@@ -44,5 +44,6 @@ var convert = function(row) {
 };
 
 module.exports = {
-  toJson: convert
+  toJson: convert,
+  fileDateFormat: 'YYYY-MM-DD'
 };

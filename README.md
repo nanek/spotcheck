@@ -1,8 +1,8 @@
 # Spotcheck
 
-Quick, light weight querying of log files from AWS S3.
+Quick, light weight querying of log files stored on AWS S3.
 
-- Downloads files from a S3 bucket.
+- Downloads files from a S3 bucket for a single day.
 - Concatenates all files into a single file.
 - Unzips if necessary.
 - Converts from a standard log format into JSON.
@@ -35,11 +35,11 @@ Example `report.json`
 {
   "list": {
     "Bucket": "",
-    "Prefix": "",
     "MaxKeys": 100
   },
   "format": "s3",
-  "Filename": "report.log"
+  "Filename": "report.log",
+  "Prefix": "",
 }
 ````
 
