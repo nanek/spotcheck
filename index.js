@@ -79,15 +79,16 @@ spotcheck.processFile = function(filePath, cb) {
     var json = reader.pipe(split())
       .pipe(spotcheck.toJson());
 
-    json.on('error', function(err) {
+    var out = fs.createWriteStream(spotcheck.outputFile, { flags: 'a' });
+
+    out.on('error', function(err) {
       cb(err);
     });
 
-    json.on('end', function() {
+    out.on('finish', function() {
       cb();
-    });
+    })
 
-    var out = fs.createWriteStream(spotcheck.outputFile, { flags: 'a' });
     json.pipe(out);
   }
 };
