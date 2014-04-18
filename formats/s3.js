@@ -20,7 +20,7 @@ var header = [
   'referer',
   'user-agent',
   '-'
-  ];
+];
 
 // Convert log format into a JSON object.
 //
@@ -45,5 +45,6 @@ var convert = function(row) {
 
 module.exports = {
   toJson: convert,
-  fileDateFormat: 'YYYY-MM-DD'
+  fileDateFormat: 'YYYY-MM-DD',
+  reportFields: header
 };

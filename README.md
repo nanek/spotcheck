@@ -17,6 +17,8 @@ Quick, light weight querying of log files stored on AWS S3.
 
     npm install spotcheck -g
 
+# Usage
+
     # Create aws.json with your AWS API credentials.
     {
       "accessKeyId": "",
@@ -25,8 +27,18 @@ Quick, light weight querying of log files stored on AWS S3.
 
     # Create report.json (see example below).
 
-    # Run report.
-    spotcheck report.json [optional date]
+    # Download data.
+    spotcheck download report.json
+
+    Optional Parameters:
+      --date   [date]      example: 04-18-2014
+
+    # Print counts from downloaded data.
+    spotcheck report [path to json file]
+
+    Parameters (must use one):
+      --format [format]    example: s3
+      --field  [field]     example: user-agent
 
 # Report format
 

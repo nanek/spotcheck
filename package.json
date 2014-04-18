@@ -2,8 +2,8 @@
   "name": "spotcheck",
   "version": "0.0.2",
   "description": "Quick, light weight querying of logs stored on AWS S3.",
-  "main": "index.js",
-  "bin": "./index.js",
+  "main": "cli.js",
+  "bin": "./cli.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,6 +18,9 @@
     "async": "~0.2.10",
     "through": "~2.3.4",
     "split": "~0.3.0",
-    "moment": "~2.5.1"
+    "moment": "~2.5.1",
+    "cli-table": "0.3.0",
+    "getobject": "0.1.0",
+    "minimist": "0.0.8"
   }
 }

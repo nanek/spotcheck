@@ -34,6 +34,22 @@ http://docs.aws.amazon.com/awscloudtrail/latest/userguide/eventreference.html
   ]
 }
 */
+
+var reportFields = [
+  'eventVersion',
+  'userIdentity.type',
+  'userIdentity.principalId',
+  'userIdentity.arn',
+  'userIdentity.accountId',
+  'userIdentity.accessKeyId',
+  'userIdentity.userName',
+  'eventSource',
+  'eventName',
+  'awsRegion',
+  'sourceIPAddress',
+  'userAgent'
+];
+
 var SEPARATOR = ',\n';
 
 var convert = function(row) {
@@ -51,5 +67,6 @@ var convert = function(row) {
 module.exports = {
   toJson: convert,
   gzip: true,
-  fileDateFormat: 'YYYY/MM/DD'
+  fileDateFormat: 'YYYY/MM/DD',
+  reportFields: reportFields
 };

@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 var fs = require('fs');
 var path = require('path');
 
@@ -13,25 +12,25 @@ AWS.config.loadFromPath('./aws.json');
 var s3 = new AWS.S3();
 
 var formats = require('./formats');
-var reportConfig = process.argv[2] || "default";
-var inputDate = process.argv[3] || null;
 var rootDir = process.cwd();
-
-var start = moment();
-if (inputDate) {
-  start = moment(inputDate);
-}
-var end = moment(start.toString()).add('days', 1);
-
-console.log(start.format("YYYY-MM-DD"), "to", end.format("YYYY-MM-DD"));
 
 var spotcheck = {};
 module.exports = spotcheck;
 
+var start = moment();
+var end = null;
 var report;
 var format;
 
-spotcheck.readConfig = function() {
+spotcheck.readConfig = function(reportConfig, inputDate) {
+  reportConfig = reportConfig || "default";
+  inputDate = inputDate || null;
+  if (inputDate) {
+    start = moment(inputDate);
+  }
+  var end = moment(start.toString()).add('hour', 1);
+  console.log(start.format('MMMM Do YYYY, h:mm:ss a'), "to", end.format('MMMM Do YYYY, h:mm:ss a'));
+
   try {
     report = require(path.join(rootDir, reportConfig));
    } catch (error) {
@@ -87,7 +86,7 @@ spotcheck.processFile = function(filePath, cb) {
 
     out.on('finish', function() {
       cb();
-    })
+    });
 
     json.pipe(out);
   }
@@ -160,5 +159,4 @@ spotcheck.run = function() {
   });
 };
 
-spotcheck.readConfig();
-spotcheck.run();
+module.exports = spotcheck;
