@@ -52,14 +52,6 @@ Example `report.json`
 }
 ````
 
-# Possible TODOs
-
-- Caching of files from S3 (listings and files. plain file or leveldb)
-- Filtering. (example: obj['sc-status'] !== '200')
-- Aggregation. Counts.
-- Transforms (example: ua parse, UTC to local time)
-- Output (example: send to loggly for additional processing)
-
 # More Robust Alternatives
 
 Spotcheck is not intended to be a robust log parsing solution. It is designed

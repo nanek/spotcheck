@@ -28,8 +28,8 @@ spotcheck.readConfig = function(reportConfig, inputDate) {
   if (inputDate) {
     start = moment(inputDate);
   }
-  var end = moment(start.toString()).add('hour', 1);
-  console.log(start.format('MMMM Do YYYY, h:mm:ss a'), "to", end.format('MMMM Do YYYY, h:mm:ss a'));
+  end = moment(start.toString()).add('day', 1);
+  console.log(start.format('MMMM Do YYYY'), "to", end.format('MMMM Do YYYY'));
 
   try {
     report = require(path.join(rootDir, reportConfig));
@@ -61,6 +61,8 @@ spotcheck.toJson = function() {
 //
 spotcheck.processFile = function(filePath, cb) {
   if (filePath && filePath.length > 1) {
+    console.log("processing", filePath);
+
     var params = {
       Bucket: report.Bucket,
       Key: filePath

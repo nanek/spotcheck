@@ -24,8 +24,10 @@ var header = [
 // Convert log format into a JSON object.
 //
 var convert = function(row) {
-  // Exclude commented lines.
+  // Skip commented lines.
   if (row[0] === '#') return "";
+  // Skip blank lines.
+  if (row === '') return "";
 
   var obj = {};
   var vals = row.split('\t');
@@ -36,6 +38,8 @@ var convert = function(row) {
       obj[key] = vals[index];
     });
     return JSON.stringify(obj, undefined, 2) + ',\n';
+  } else {
+    console.log("Skipping row. Values don't match expected length.")
   }
 
   return "";

@@ -1,7 +1,8 @@
 {
   "name": "spotcheck",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Quick, light weight querying of logs stored on AWS S3.",
+  "keywords": "AWS, logs, cloudfront, S3, cloudtrail",
   "main": "cli.js",
   "bin": "./cli.js",
   "scripts": {
