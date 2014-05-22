@@ -1,6 +1,6 @@
 {
   "name": "spotcheck",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Quick, light weight querying of logs stored on AWS S3.",
   "keywords": "AWS, logs, cloudfront, S3, cloudtrail",
   "main": "cli.js",
@@ -15,13 +15,14 @@
     "url": "https://github.com/spanishdict/spotcheck"
   },
   "dependencies": {
-    "aws-sdk": "~2.0.0-rc9",
     "async": "~0.2.10",
-    "through": "~2.3.4",
-    "split": "~0.3.0",
-    "moment": "~2.5.1",
+    "aws-sdk": "~2.0.0-rc9",
     "cli-table": "0.3.0",
     "getobject": "0.1.0",
-    "minimist": "0.0.8"
+    "lodash": "~2.4.1",
+    "minimist": "0.0.8",
+    "moment": "~2.5.1",
+    "split": "~0.3.0",
+    "through": "~2.3.4"
   }
 }
