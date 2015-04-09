@@ -18,7 +18,8 @@ var header = [
   'x-edge-request-id',
   'x-host-header',
   'cs-protocol',
-  'cs-bytes'
+  'cs-bytes',
+  'time-taken'
 ];
 
 // Convert log format into a JSON object.
