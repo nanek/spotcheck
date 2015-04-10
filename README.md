@@ -31,7 +31,7 @@ Quick, light weight querying of log files stored on AWS S3.
     spotcheck download report.json
 
     Optional Parameters:
-      --date   [date]      example: 04-18-2014
+      --date   [date]      example: 04-08-2015
 
     # Print counts from downloaded data.
     spotcheck report [path to json file]
