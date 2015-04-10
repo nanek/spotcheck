@@ -18,7 +18,8 @@ var header = [
   'x-edge-request-id',
   'x-host-header',
   'cs-protocol',
-  'cs-bytes'
+  'cs-bytes',
+  'time-taken'
 ];
 
 // Convert log format into a JSON object.
@@ -33,13 +34,13 @@ var convert = function(row) {
   var vals = row.split('\t');
   var fields = header.length;
 
-  if (vals.length === fields) {
+  if (vals.length >= fields) {
     header.forEach(function(key, index){
       obj[key] = vals[index];
     });
     return JSON.stringify(obj, undefined, 2) + ',\n';
   } else {
-    console.log("Skipping row. Values don't match expected length.")
+    console.log("Skipping row. Log contains fewer values than expected.")
   }
 
   return "";
