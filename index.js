@@ -8,7 +8,6 @@ var async = require('async');
 var moment = require('moment');
 
 var AWS = require('aws-sdk');
-AWS.config.loadFromPath('./aws.json');
 var s3 = new AWS.S3();
 
 var formats = require('./formats');
